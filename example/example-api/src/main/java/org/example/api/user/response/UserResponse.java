@@ -1,8 +1,8 @@
 package org.example.api.user.response;
 
-import org.example.api.base.BaseResponse;
+import org.example.api.base.Base;
 
-public class UserResponse extends BaseResponse{
+public class UserResponse extends Base{
 
 	/**
 	 * 

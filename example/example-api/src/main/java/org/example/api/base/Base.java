@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class BaseResponse implements Serializable{
-	
+public class Base implements Serializable{
 	/**
 	 * 
 	 */

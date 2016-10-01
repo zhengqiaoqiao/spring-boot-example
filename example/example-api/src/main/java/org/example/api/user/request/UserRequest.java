@@ -1,8 +1,8 @@
 package org.example.api.user.request;
 
-import org.example.api.base.BaseRequest;
+import org.example.api.base.Base;
 
-public class UserRequest extends BaseRequest{
+public class UserRequest extends Base{
 
 	/**
 	 * 
