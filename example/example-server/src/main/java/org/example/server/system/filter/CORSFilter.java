@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  * @author: zheng.qq
  * @date: 2016年3月18日
  */
-@WebFilter(filterName="CORSFilter",urlPatterns="/*")
+@WebFilter(filterName="CORSFilter",urlPatterns="*.do")
 public class CORSFilter implements Filter{
 	private final Logger LOGGER = Logger.getLogger(CORSFilter.class);
 

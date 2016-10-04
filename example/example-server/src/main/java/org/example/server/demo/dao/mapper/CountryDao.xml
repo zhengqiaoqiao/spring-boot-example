@@ -15,4 +15,8 @@
     <select id="getCountryById" parameterType="String" resultMap="CountryResultMap">
         select * from country where id=#{id}
     </select>
+    
+    <select id="getCountryByPage" resultMap="CountryResultMap">
+        select * from country
+    </select>
 </mapper>

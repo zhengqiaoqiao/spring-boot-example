@@ -9,14 +9,19 @@
 	<appender name="STDOUT-OUT" class="ch.qos.logback.core.ConsoleAppender">
 		<!-- 将过滤器的日志级别配置为INFO，所有INFO级别的日志交给appender处理，非INFO级别的日志，被过滤掉 -->
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
+            <level>WARN</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
         </filter>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>
 				<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{30} - %msg%n
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{100} - %msg%n
 			</Pattern>
 		</encoder>
 		<target>System.out</target>
@@ -86,6 +91,7 @@
 
 	</appender>
 	
+	<logger name="org.example.server" level="DEBUG"></logger>
 
 	
 	<root level="INFO">
