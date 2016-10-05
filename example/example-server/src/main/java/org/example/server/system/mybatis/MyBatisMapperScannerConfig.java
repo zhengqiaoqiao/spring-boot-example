@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-//TODO 注意，由于MapperScannerConfigurer执行的比较早，所以必须有下面的注解
-@AutoConfigureAfter(MyBatisConfig.class)
+//@Configuration
+////TODO 注意，由于MapperScannerConfigurer执行的比较早，所以必须有下面的注解
+//@AutoConfigureAfter(MyBatisConfig.class)
 public class MyBatisMapperScannerConfig {
 
   @Bean

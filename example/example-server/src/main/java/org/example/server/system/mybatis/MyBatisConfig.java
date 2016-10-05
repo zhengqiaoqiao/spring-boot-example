@@ -18,8 +18,13 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration
-@EnableTransactionManagement
+/**
+ * 这里mybatis采用了xml配置
+ * @author QIAO
+ *
+ */
+//@Configuration
+//@EnableTransactionManagement
 public class MyBatisConfig  implements TransactionManagementConfigurer{
 	@Autowired
     DataSource dataSource;
@@ -27,7 +32,7 @@ public class MyBatisConfig  implements TransactionManagementConfigurer{
     public SqlSessionFactory sqlSessionFactoryBean() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setTypeAliasesPackage("org.example.server.**.dao");
+        bean.setTypeAliasesPackage("org.example.server.**.dao.mapper");
 
         //分页插件
         PageHelper pageHelper = new PageHelper();
