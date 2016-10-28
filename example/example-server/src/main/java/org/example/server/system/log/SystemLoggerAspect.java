@@ -86,7 +86,7 @@ public class SystemLoggerAspect {
     		try{
         		loggerBean.setResult(result);
                 loggerBean.setRequestEndTime(DateUtil.format(new Date()));
-                logger.info("系统日志：{}", JsonUtil.serialize(loggerBean));
+                logger.info("系统日志：{}", JsonUtil.bean2Json(loggerBean));
         	}catch(Exception e){
         		logger.error("设置方法请求的结果日志功能发生异常：", e);
         	}
