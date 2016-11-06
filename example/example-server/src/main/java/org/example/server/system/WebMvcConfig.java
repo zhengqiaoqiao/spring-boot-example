@@ -29,7 +29,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/mystatic/**")
                 .addResourceLocations("classpath:/mystatic/");
     }
-   
 
 //    @Override
 //    public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -37,10 +36,5 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 //        registry.freeMarker().cache(false);
 //    }
 //
-//    @Bean
-//    public FreeMarkerConfigurer freeMarkerConfigurer() {
-//        FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-//        configurer.setTemplateLoaderPath("/WEB-INF/");
-//        return configurer;
-//    }
+
 }

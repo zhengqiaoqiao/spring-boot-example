@@ -9,6 +9,7 @@ import net.sf.oval.constraint.NotEmpty;
 import org.example.server.demo.bean.Country;
 import org.example.server.demo.dao.CountryDao;
 import org.example.server.demo.service.ICountryService;
+import org.example.server.system.cache.CacheCable;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -19,6 +20,7 @@ public class CountryServiceImpl implements ICountryService{
 	@Resource
 	private CountryDao countryDao;
 	@Override
+	@CacheCable(key="'sys:getCountryById:'+#id", expiration=10*24*60*60)
 	public Country getCountryById(@NotEmpty String id) {
 		// TODO Auto-generated method stub
 		return countryDao.getCountryById(id);

@@ -55,6 +55,13 @@
 			<groupId>org.springframework.boot</groupId>    
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
+		<!-- Redis -->
+		<dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-redis</artifactId>
+                <version>1.4.1.RELEASE</version>
+        </dependency>
+		
 		<!--支持使用 JDBC 访问数据库-->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>

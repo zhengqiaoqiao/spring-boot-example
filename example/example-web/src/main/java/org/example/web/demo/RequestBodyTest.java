@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api")
-public class TestController {
+public class RequestBodyTest {
 	@RequestMapping("/test")
 	public List<B> test(@RequestBody List<B> list){
 		System.out.println("dd");

@@ -1,13 +1,11 @@
 package org.example.web.system;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@Configuration
 @EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	 /**
@@ -25,7 +23,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/mystatic/**")
                 .addResourceLocations("classpath:/mystatic/");
     }
-    
+    /**
+     * 跨越方案
+     */
     @Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/api/**")
@@ -35,18 +35,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 			.allowCredentials(false)
 			.maxAge(3600);
 	}
-   
-
+    
 //    @Override
 //    public void configureViewResolvers(ViewResolverRegistry registry) {
 //        registry.enableContentNegotiation(new MappingJackson2JsonView());
 //        registry.freeMarker().cache(false);
 //    }
 //
-//    @Bean
-//    public FreeMarkerConfigurer freeMarkerConfigurer() {
-//        FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-//        configurer.setTemplateLoaderPath("/WEB-INF/");
-//        return configurer;
-//    }
+
 }

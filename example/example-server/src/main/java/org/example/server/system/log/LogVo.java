@@ -2,7 +2,7 @@ package org.example.server.system.log;
 
 import java.util.Map;
 
-public class SystemLogger {
+public class LogVo {
 	private String methodName;
 	private String methodDesc;
 	private String requestIp;

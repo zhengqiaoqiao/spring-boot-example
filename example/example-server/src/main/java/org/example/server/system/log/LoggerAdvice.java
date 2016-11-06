@@ -9,15 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.example.common.date.DateUtil;
 import org.example.common.serialize.JsonUtil;
+import org.example.server.system.base.BaseAdvice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +30,12 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-public class SystemLoggerAspect {
-	private static final Logger logger = LoggerFactory.getLogger(SystemLoggerAspect.class);
+public class LoggerAdvice extends BaseAdvice{
+	private static final Logger logger = LoggerFactory.getLogger(LoggerAdvice.class);
 	@Autowired  
 	HttpServletRequest request; //这里可以获取到request
 	//切点    
-    @Pointcut("@annotation(org.example.server.system.log.SystemLoggerAnno)")    
+    @Pointcut("@annotation(org.example.server.system.log.LoggerCable)")    
     public void pointcut() {}    
     
     @Before(value="pointcut()") 
@@ -46,7 +45,7 @@ public class SystemLoggerAspect {
     
     @Around("pointcut()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
-    	SystemLogger loggerBean = new SystemLogger();
+    	LogVo loggerBean = new LogVo();
     	if (logger.isInfoEnabled()) {
     		try{
         		//请求的IP    
@@ -54,7 +53,7 @@ public class SystemLoggerAspect {
                 String methodName = joinPoint.getSignature().getName();
         		String className = joinPoint.getTarget().getClass().getName();
         		Method method = this.getMethod(joinPoint);
-        		SystemLoggerAnno annotation = method.getAnnotation(SystemLoggerAnno.class);
+        		LoggerCable annotation = method.getAnnotation(LoggerCable.class);
         		Object[] args = joinPoint.getArgs();
         		loggerBean.setMethodName(className+"."+methodName);
                 loggerBean.setRequestIp(ip);
@@ -102,22 +101,4 @@ public class SystemLoggerAspect {
     public void doAfter(JoinPoint joinPoint) throws Throwable {
     	
     }
-    
-    /**
-	 * @param joinPoint
-	 * @return
-	 * @throws NoSuchMethodException
-	 */
-	protected Method getMethod(final JoinPoint joinPoint)
-			throws NoSuchMethodException {
-		final Signature sig = joinPoint.getSignature();
-		if (!(sig instanceof MethodSignature)) {
-			throw new NoSuchMethodException(
-					"This annotation is only valid on a method.");
-		}
-		final MethodSignature msig = (MethodSignature) sig;
-		final Object target = joinPoint.getTarget();
-		return target.getClass().getMethod(msig.getName(),
-				msig.getParameterTypes());
-	}
 }

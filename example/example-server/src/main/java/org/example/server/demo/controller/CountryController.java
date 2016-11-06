@@ -1,7 +1,5 @@
 package org.example.server.demo.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import net.sf.oval.constraint.NotEmpty;
@@ -9,17 +7,14 @@ import net.sf.oval.constraint.NotNull;
 
 import org.example.api.base.Result;
 import org.example.api.enums.ResultCodeEnum;
-import org.example.api.user.response.UserResponse;
 import org.example.server.demo.bean.Country;
 import org.example.server.demo.service.ICountryService;
-import org.example.server.user.controller.UserController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 
 @RestController
