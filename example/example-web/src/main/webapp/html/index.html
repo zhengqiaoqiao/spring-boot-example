@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Template7</title>
+    <style>
+        body {
+            background: white;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color:#444;
+            line-height: 1.4;
+        }
+        #content-wrap {
+            width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+	<div id="content-head">this is head!</div>
+    <div id="content-wrap"></div>
+    <div id="content-foot">this is foot!</div>
+    <script type="text/template" id="show-template">
+        <div class="overview">
+            <p>{{a}} , {{b}}</p>
+        </div>
+    </script>
+
+	<!-- Path to Framework7 Library JS-->
+    <script type="text/javascript" src="../js/framework7/js/framework7.min.js"></script>
+    <!-- Path to Template7 lib -->
+    <script type="text/javascript" src="../js/template7/template7.min.js"></script>
+    <script type="text/javascript" src="../js/template7/template7.extend.js"></script>
+    <script type="text/javascript" src="../js/ZQiao.js"></script>
+    
+    <!-- user lib -->
+    <script>
+    	var url = '/demo/get.do';
+    	var method='GET';
+    	var contentType='application/json';
+    	var data='';
+    	var dataType = 'json';
+    	var success = function(data){
+    		var contentId = 'content-wrap';
+    		var templateId = 'show-template';
+    		App.initTemplate(contentId, templateId, data);
+    	}
+        App.ajax(url, method, contentType, dataType, data, success, null);
+    </script>
+    
+</body>
+</html>
