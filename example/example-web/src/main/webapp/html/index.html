@@ -3,33 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Template7</title>
-    <style>
-        body {
-            background: white;
-            margin: 0;
-            padding: 0;
-            position: relative;
-            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-            font-size: 14px;
-            color:#444;
-            line-height: 1.4;
-        }
-        #content-wrap {
-            width: 960px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
+    <!-- Path to Framework7 iOS CSS theme styles-->
+    <link rel="stylesheet" href="../js/framework7/css/framework7.ios.min.css">
+    <!-- Path to Framework7 iOS related color styles -->
+    <link rel="stylesheet" href="../js/framework7/css/framework7.ios.colors.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/mystyle.css">
 </head>
 <body>
 	<div id="content-head">this is head!</div>
     <div id="content-wrap"></div>
+    <!-- Scrollable page content -->
+    <div class="page-content">
+      <p>Page content goes here</p>
+      <!-- Link to another page -->
+      <a class="link"  href="/html/test.html">百度</a>
+      <a href="/html/test.html" class="link" target="_blank">W3School</a>
+    </div>
     <div id="content-foot">this is foot!</div>
-    <script type="text/template" id="show-template">
-        <div class="overview">
-            <p>{{a}} , {{b}}</p>
-        </div>
-    </script>
+    
+	<!--模板文本 -->
+	<template id="tpl">
+		<div class="overview">
+		    <p>{{a}} {{b}}</p>
+		</div>
+		<!--无效 -->
+		<script type="text/javascript" src="../js/test.js"></script>
+		<!--无效 -->
+		<script type="text/javascript">
+			alert(2);
+		</script>
+		<!--有效 -->
+<!-- 		<link rel="stylesheet" type="text/css" href="../css/mystyle.css"> -->
+		<!--有效 -->
+		<style type="text/css">
+			body {
+			    background: red;
+			}
+		</style>
+		<!--有效 -->
+		<img with=300 height=400 src="../image/20161110235754.png"></img>
+		
+	</template>
+	
 
 	<!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="../js/framework7/js/framework7.min.js"></script>
@@ -47,7 +62,7 @@
     	var dataType = 'json';
     	var success = function(data){
     		var contentId = 'content-wrap';
-    		var templateId = 'show-template';
+    		var templateId = 'tpl';
     		App.initTemplate(contentId, templateId, data);
     	}
         App.ajax(url, method, contentType, dataType, data, success, null);
