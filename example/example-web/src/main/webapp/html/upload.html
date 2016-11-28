@@ -5,9 +5,11 @@
 		<title>Insert title here</title>
 		<!--引入CSS-->
 		<link rel="stylesheet" type="text/css" href="../js/webuploader-0.1.5/webuploader.css">
+		<link rel="stylesheet" type="text/css" href="../css/upload.css">
 		<!--引入JS-->
 		<script type="text/javascript" src="../js/jquery/jquery-3.1.1.min.js"></script>
 		<script type="text/javascript" src="../js/webuploader-0.1.5/webuploader.js"></script>
+		<script type="text/javascript" src="../js/layer-v3.0.1/layer/layer.js"></script>
 	</head>
 	<body>
 		<div id="uploader" class="wu-example">
@@ -23,16 +25,17 @@
 			    // swf文件路径
 			    swf: '/js/webuploader-0.1.5/Uploader.swf',
 			    // 文件接收服务端。
-			    server: 'http://localhost:8080/upload-ftp/image.do',
+			    server: 'http://localhost:8080/upload-ftp/file-split.do',
 			    // 选择文件的按钮。可选。
 			    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 			    pick: '#picker',
+			    compress : false,
 			    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
 			    resize: false,
 			    //是否要分片处理大文件上传。
 			    chunked: true,
 			    //如果要分片，分多大一片
-			    chunkSize: 1024 * 50,
+			    chunkSize: 1024 * 1024 * 20,
 			    //如果某个分片由于网络问题出错，允许自动重传多少次？
 			    chunkRetry:2,
 	            //上传并发数。允许同时最大上传进程数。
@@ -42,37 +45,64 @@
 			    //验证文件总大小是否超出限制, 超出则不允许加入队列。
 			    fileSizeLimit: 1024 * 1024 * 1024,
 			    //验证文件总数量, 超出则不允许加入队列。
-			    fileNumLimit: 5,
+			    fileNumLimit: 1,
 	            //验证单个文件大小是否超出限制, 超出则不允许加入队列。
 			    fileSingleSizeLimit:1024 * 1024 * 1024,
 			    //是否禁掉整个页面的拖拽功能，如果不禁用，图片拖进来的时候会默认被浏览器打开。
 			    disableGlobalDnd :false,
 			 	// 只允许选择图片文件。
-			    accept: {
-			        title: 'Images',
-			        extensions: 'gif,jpg,jpeg,bmp,png',
-			        mimeTypes: 'image/*'
-			    }
+// 			    accept: {
+// 			        title: 'Images',
+// 			        extensions: 'gif,jpg,jpeg,bmp,png',
+// 			        mimeTypes: 'image/*'
+// 			    }
 			});
+			//当文件被加入队列之前触发，此事件的handler返回值为false，则此文件不会被添加进入队列。
+			uploader.on('beforeFileQueued', function(file) {
+				var isDo = true;
+				$.ajax({
+	    	   		type: "GET",
+	    	   		//同步请求
+	    	   		async:false,
+	    	   		url: "http://localhost:8080/upload-ftp/check-file-exist.do",
+	    	   		data: "fileName="+file.name,
+	    	   		success: function(msg){
+	    	   			if(msg && msg.code==200 && msg.result==true){
+	    	   				isDo = false;
+	    	   			}else{
+	    	   				isDo = true;
+	    	   			}
+	    	   		}
+		    	});
+				if(!isDo){
+					layer.msg('远程服务器中该文件已经存在！', {
+						icon: 6,
+						time:2000,
+						shade: [0.8, '#393D49']
+					}); 
+				}
+				return isDo;
+			});
+			
 			
 			// 当有文件添加进来的时候
 			uploader.on('fileQueued', function(file) {
 				//计算文件 md5 值
-				uploader.md5File(file)
-			        // 及时显示进度
-			        .progress(function(percentage) {
-			            console.log('Percentage:', percentage);
-			        })
-			        //完成
-			        .then(function(val) {
-			            console.log('md5 result:', val);
-			            uploader.option( 'formData', {
-			            	fileName: val + '.JPG'
-			            });
-		        	}
-		        );
-
-			    var $li = $(
+// 				uploader.md5File(file)
+// 			        // 及时显示进度
+// 			        .progress(function(percentage) {
+// 			            console.log('Percentage:', percentage);
+// 			        })
+// 			        //完成
+// 			        .then(function(val) {
+// 			            console.log('md5 result:', val);
+// 			            filemd5=val;
+// 		        	}
+// 		        );
+				var ext = file.ext;
+				var fileName = file.name;
+				var fileSize = file.size;
+				var $li = $(
 		            '<div id="' + file.id + '" class="file-item thumbnail">' +
 		                '<img>' +
 		                '<div class="info">' + file.name + '</div>' +
@@ -85,39 +115,85 @@
 			    // 创建缩略图
 			    // 如果为非图片文件，可以不用调用此方法。
 			    // thumbnailWidth x thumbnailHeight 为 100 x 100
-			    uploader.makeThumb( file, function( error, src ) {
-			        if ( error ) {
-			            $img.replaceWith('<span>不能预览</span>');
+			    uploader.makeThumb(file, function(error, src) {
+			        if (error) {
+			        	$img.attr('src', '../image/file.jpg');
+			        	$img.attr('width', 100);
+			        	$img.attr('height', 100);
 			            return;
 			        }
 
-			        $img.attr( 'src', src );
+			        $img.attr('src', src);
 			    }, 100, 100 );
 			});
 			
 			// 文件上传过程中创建进度条实时显示。
-			uploader.on( 'uploadProgress', function( file, percentage ) {
-			    var $li = $( '#'+file.id ),
+			uploader.on('uploadProgress', function(file, percentage) {
+			    var $li = $('#'+file.id),
 			        $percent = $li.find('.progress span');
 
 			    // 避免重复创建
-			    if ( !$percent.length ) {
+			    if (!$percent.length ) {
 			        $percent = $('<p class="progress"><span></span></p>')
-			                .appendTo( $li )
+			                .appendTo($li)
 			                .find('span');
 			    }
 
-			    $percent.css( 'width', percentage * 100 + '%' );
+			    $percent.css('width', percentage * 100 + '%');
+			});
+			//当某个文件的分块在发送前触发，主要用来询问是否要添加附带参数，大文件在开起分片上传的前提下此事件可能会触发多次。
+			uploader.on('uploadBeforeSend', function(object, data, headers) {
+				data.fileMD5 = object.file.__hash;
+				data.chunk = object.chunk;
+// 				alert(object, data, headers);
+				 
 			});
 
 			// 文件上传成功，给item添加成功class, 用样式标记上传成功。
-			uploader.on( 'uploadSuccess', function( file ) {
-			    $( '#'+file.id ).addClass('upload-state-done');
+			uploader.on('uploadSuccess', function(file) {
+				$.ajax({
+	    	   		type: "GET",
+	    	   		url: "http://localhost:8080/upload-ftp/merge-file-split.do",
+	    	   		data: "fileMD5="+file.__hash+"&fileName="+file.name,
+	    	   		success: function(msg){
+	    	   			layer.closeAll();
+	    	   			if(msg && msg.code==200 && msg.result==true){
+	    	   				layer.msg('合并文件分片完毕！', {
+		    					icon: 6,
+		    					time:2000,
+		    					shade: [0.8, '#393D49']
+		    				}); 
+	    	   				$('#'+file.id).addClass('upload-state-done');
+	    	   			}else{
+	    	   				var $li = $('#'+file.id),
+	    			        $error = $li.find('div.error');
+		    			    // 避免重复创建
+		    			    if (!$error.length) {
+		    			        $error = $('<div class="error"></div>').appendTo($li);
+		    			    }
+		    			    $error.text(msg.result.msg);
+	    	   			}
+	    	   		}
+		    	});
+				layer.msg('文件已上传完毕,开始合并文件分片！', {
+					icon: 6,
+					time:2000,
+					shade: [0.8, '#393D49']
+				}, function(){
+					layer.msg('正在合并文件分片，您不必等待合并结果，系统后台自动完成！', {
+						icon: 6,
+						time:2000,
+						shade: [0.8, '#393D49']
+					}, function(){
+						  //do something
+					});
+				}); 
+			    
 			});
 
 			// 文件上传失败，显示上传出错。
-			uploader.on( 'uploadError', function( file ) {
-			    var $li = $( '#'+file.id ),
+			uploader.on('uploadError', function(file) {
+			    var $li = $('#'+file.id),
 			        $error = $li.find('div.error');
 
 			    // 避免重复创建
@@ -129,14 +205,13 @@
 			});
 
 			// 完成上传完了，成功或者失败，先删除进度条。
-			uploader.on( 'uploadComplete', function( file ) {
+			uploader.on('uploadComplete', function( file ) {
 			    $( '#'+file.id ).find('.progress').remove();
 			});
 			
 			$('#ctlBtn').on('click', function() {
 			    uploader.upload();
-			})
-
+			});
 		</script>
 	</body>
 </html>

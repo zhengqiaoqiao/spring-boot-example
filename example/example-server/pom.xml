@@ -21,19 +21,7 @@
 		<mapper.version>3.3.6</mapper.version>
 		<pagehelper.version>4.1.1</pagehelper.version>
 	</properties>
-  
-  	<dependencyManagement>
-	    <dependencies>
-			<dependency>
-			    <!-- Import dependency management from Spring Boot -->
-			    <groupId>org.springframework.boot</groupId>
-			    <artifactId>spring-boot-dependencies</artifactId>
-			    <version>1.4.1.BUILD-SNAPSHOT</version>
-			    <type>pom</type>
-			    <scope>import</scope>
-			</dependency>
-	    </dependencies>
-  	</dependencyManagement>
+
   	<dependencies>
   		<dependency>
 		    <groupId>com.qiao</groupId>
@@ -168,4 +156,26 @@
 		    <version>1.81</version>
 		</dependency>
   	</dependencies>
+  	
+ 	<repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <url>http://repo.spring.io/snapshot</url>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <url>http://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <url>http://repo.spring.io/snapshot</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <url>http://repo.spring.io/milestone</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

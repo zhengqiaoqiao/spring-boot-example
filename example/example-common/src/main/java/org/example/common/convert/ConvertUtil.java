@@ -1,48 +1,42 @@
-package org.example.common.image;
+package org.example.common.convert;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.MessageDigest;
 
 import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.binary.Base64;
 
-
 /**
- * <p>Title: ImageUtils</p>
+ * <p>Title: ConvertUtil</p>
  * <p>Description: </p>
  * @author: zheng.qq
- * @date: 2016年7月15日
+ * @date: 2016年11月22日
  */
-public class ImageUtils {
+public class ConvertUtil {
 	final static int BUFFER_SIZE = 4096;
 	
 	/**
-     * 将InputStream转换成String
+     * 将InputStream转换成byte数组
      * @param in InputStream
-     * @return String
-     * @throws Exception
-     * 
+     * @return byte[]
+     * @throws IOException
      */
-    public static String inputStreamToString(InputStream in) throws Exception{
-         
+    public static byte[] inputStreamToByte(InputStream in) throws IOException{
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[] data = new byte[BUFFER_SIZE];
         int count = -1;
-        while((count = in.read(data,0,BUFFER_SIZE)) != -1)
-            outStream.write(data, 0, count);
-         
+        while((count = in.read(data,0,BUFFER_SIZE)) != -1){
+        	outStream.write(data, 0, count);
+        }
         data = null;
-        return new String(outStream.toByteArray(),"ISO-8859-1");
+        return outStream.toByteArray();
     }
-     
     /**
      * 将InputStream转换成某种字符编码的String
      * @param in
@@ -51,15 +45,11 @@ public class ImageUtils {
      * @throws Exception
      */
      public static String inputStreamToString(InputStream in,String encoding) throws Exception{
-         
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        byte[] data = new byte[BUFFER_SIZE];
-        int count = -1;
-        while((count = in.read(data,0,BUFFER_SIZE)) != -1)
-            outStream.write(data, 0, count);
-         
-        data = null;
-        return new String(outStream.toByteArray(),"ISO-8859-1");
+    	 if(encoding==null || encoding.equals("")){
+    		 encoding = "UTF-8";
+    	 }
+    	 byte[] bytes = inputStreamToByte(in);
+    	 return new String(bytes, encoding);
     }
      
     /**
@@ -68,29 +58,15 @@ public class ImageUtils {
      * @return
      * @throws Exception
      */
-    public static InputStream stringToInputStream(String in) throws Exception{
-         
-        ByteArrayInputStream is = new ByteArrayInputStream(in.getBytes("ISO-8859-1"));
+    public static InputStream stringToInputStream(String in, String encoding) throws Exception{
+    	if(encoding==null || encoding.equals("")){
+    		encoding = "UTF-8";
+   	 	}
+        ByteArrayInputStream is = new ByteArrayInputStream(in.getBytes(encoding));
         return is;
     }
      
-    /**
-     * 将InputStream转换成byte数组
-     * @param in InputStream
-     * @return byte[]
-     * @throws IOException
-     */
-    public static byte[] inputStreamToByte(InputStream in) throws IOException{
-         
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        byte[] data = new byte[BUFFER_SIZE];
-        int count = -1;
-        while((count = in.read(data,0,BUFFER_SIZE)) != -1)
-            outStream.write(data, 0, count);
-         
-        data = null;
-        return outStream.toByteArray();
-    }
+    
      
     /**
      * 将byte数组转换成InputStream
@@ -99,46 +75,27 @@ public class ImageUtils {
      * @throws Exception
      */
     public static InputStream byteToInputStream(byte[] in) throws Exception{
-         
         ByteArrayInputStream is = new ByteArrayInputStream(in);
         return is;
     }
      
     /**
      * 将byte数组转换成String
-     * @param in
+     * @param bytes
+     * @param encoding
      * @return
      * @throws Exception
      */
-    public static String byteTOString(byte[] in) throws Exception{
-         
-        InputStream is = byteToInputStream(in);
-        return inputStreamToString(is);
+    public static String byteToString(byte[] bytes, String encoding) throws Exception{
+    	return new String(bytes, encoding);
     }
     
-	/**
-	 * 强制压缩/放大图片到固定的大小
-	 * @param w int 新宽度
-	 * @param h int 新高度
-	 */
-	public static InputStream resize(InputStream stream, int w, int h) throws IOException {
-		BufferedImage img = ImageIO.read(stream);      // 构造Image对象
-		int width = img.getWidth(null);    // 得到源图宽
-		int height = img.getHeight(null);  // 得到源图长
-		if (width / height > w / h) {
-			h = (int) (height * w / width);
-		} else {
-			w = (int) (width * h / height);
-		}
-		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB ); 
-		image.getGraphics().drawImage(img, 0, 0, w, h, null); // 绘制缩小后的图
-		ByteArrayOutputStream os = new ByteArrayOutputStream();  
-		ImageIO.write(image, "jpg", os);  
-		InputStream is = new ByteArrayInputStream(os.toByteArray());  
-		return is;
-	}
-	
-	public static String base64Encoder(InputStream ins){
+    /**
+     * 获取base64字符串
+     * @param ins
+     * @return
+     */
+    public static String base64Encoder(InputStream ins){
 		String str = "";
 		try {
 			str = Base64.encodeBase64String(inputStreamToByte(ins));
@@ -148,7 +105,11 @@ public class ImageUtils {
 		}
 		return str;
 	}
-	
+	/**
+	 * 转化base64字符串为数据流
+	 * @param base64String
+	 * @return
+	 */
 	public static InputStream base64Decoder(String base64String){
 		InputStream is = null;
 		is = new ByteArrayInputStream(Base64.decodeBase64(base64String));  

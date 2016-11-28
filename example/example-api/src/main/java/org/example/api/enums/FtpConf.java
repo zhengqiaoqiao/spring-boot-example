@@ -5,7 +5,7 @@ public enum FtpConf {
 	/**图片 **/
 	IMAGE {
 		public String getPath() {
-			return "image";
+			return "soft";
 		}
 
 		public Integer getMaxSize() {
@@ -15,7 +15,7 @@ public enum FtpConf {
 	/**WORD **/
 	WORD {
 		public String getPath() {
-			return "word";
+			return "/word";
 		}
 
 		public Integer getMaxSize() {
@@ -25,7 +25,7 @@ public enum FtpConf {
 	/**EXCEL**/
 	EXCEL {
 		public String getPath() {
-			return "excel";
+			return "/excel";
 		}
 
 		public Integer getMaxSize() {
@@ -35,7 +35,7 @@ public enum FtpConf {
 	/**VIDEO**/
 	VIDEO {
 		public String getPath() {
-			return "video";
+			return "/video";
 		}
 
 		public Integer getMaxSize() {

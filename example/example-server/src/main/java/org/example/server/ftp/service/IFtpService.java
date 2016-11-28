@@ -23,4 +23,34 @@ public interface IFtpService {
 	 * @throws Exception 
 	 */
 	public boolean deleteFile(String fileName, String ftpServerPath) throws Exception;
+	
+	
+	/**
+	 * 上传文件分片
+	 * @param in
+	 * @param ftpServerPath
+	 * @param fileMD5
+	 * @param fileSplitNo
+	 * @return
+	 * @throws Exception 
+	 */
+	public boolean uploadFileSplit(InputStream in, String ftpServerPath, String fileMD5, int fileSplitNo) throws Exception;
+	
+	/**
+	 * 合并文件分片
+	 * @param ftpServerPath
+	 * @param fileMD5
+	 * @param fileName
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean mergeFileSplit(String ftpServerPath, String fileMD5, String fileName) throws Exception;
+	/**
+	 * 判断文件是否存在
+	 * @param ftpServerPath
+	 * @param fileName
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean checkFileExist(String ftpServerPath, String fileName) throws Exception;
 }
