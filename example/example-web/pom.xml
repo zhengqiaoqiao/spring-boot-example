@@ -17,6 +17,7 @@
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<zkclient.version>0.1</zkclient.version>
 	</properties>
 
 	<dependencies>
@@ -61,6 +62,33 @@
 	        <groupId>com.qiao</groupId>
 	        <artifactId>example-common</artifactId>
 	        <version>0.0.1-SNAPSHOT</version>
+	    </dependency>
+	    
+	    <!--Dubbo -->
+		<dependency>
+			<groupId>com.github.sgroschupf</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>${zkclient.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>dubbo</artifactId>
+		    <version>2.5.3</version>
+		    <exclusions>
+			<exclusion>
+				<artifactId>commons-logging</artifactId>
+				<groupId>commons-logging</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>spring</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+		</exclusions>
+		</dependency>
+		<dependency>
+	        <groupId>com.caucho</groupId>
+	        <artifactId>hessian</artifactId>
+			<version>4.0.7</version>
 	    </dependency>
 	    
 	</dependencies>
