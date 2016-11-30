@@ -14,7 +14,9 @@
     <!-- 使用zookeeper暴露服务地址 -->
     <dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" />
     
+    <dubbo:reference id="demoServiceApi" interface="org.example.api.demo.service.IDemoServiceApi" 
+    	version="1.0" protocol="dubbo" timeout="10000" check="false" />
     <dubbo:reference id="ftpServiceApi" interface="org.example.api.ftp.service.IFtpServiceApi" 
-    	version="1.0" async="true" protocol="dubbo"/>
+    	version="1.0" protocol="hessian" timeout="10000" check="false" />
 	
 </beans>

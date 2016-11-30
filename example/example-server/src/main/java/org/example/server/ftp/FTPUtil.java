@@ -531,11 +531,11 @@ public class FTPUtil {
     public static void main(String[] args) {
         FTPUtil myFtp = new FTPUtil();   
         try {   
-        	myFtp.connect("10.0.30.51", 21, "wfx", "wfx"); 
+        	myFtp.connect("192.168.1.102", 21, "QIAO-OS", "root@1234"); 
 //        	myFtp.connect("10.0.20.107", 21, "zheng.qq", "qiao@1234"); 
-            File file = new File("E:\\软件\\win64_11gR2_client.zip");
+            File file = new File("F:\\redis-cli.exe");
             FileInputStream in = new FileInputStream(file);
-            System.out.println(myFtp.upload("soft/win64_11gR2_client.zip", in));  
+            System.out.println(myFtp.upload("soft/redis-cli.exe", in));  
 //            System.out.println(myFtp.download("/ 央视走西口/新浪网/走西口24.mp4", "E:\\走西口242.mp4"));   
 //            System.out.println(myFtp.createDir("soft/s/gg"));
             myFtp.disconnect();   

@@ -12,7 +12,7 @@
 		<property name="beanNames">
 			<list>
 				<value>*Controller</value>
-				<value>*Service</value>
+				<value>*Service*</value>
 	     	</list>
 		</property>
 		<property name="interceptorNames">

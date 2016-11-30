@@ -14,9 +14,12 @@
     <!-- 使用zookeeper暴露服务地址 -->
     <dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" />
     
-    <dubbo:protocol name="dubbo" port="20880"/>
+    <dubbo:protocol name="dubbo" port="22880"/>
+    <dubbo:protocol name="hessian" port="8090" server="servlet" contextpath="dubbo"/>
     
-	<dubbo:service interface="org.example.api.ftp.service.IFtpServiceApi" ref="ftpServiceApiImpl"
+    <dubbo:service interface="org.example.api.demo.service.IDemoServiceApi" ref="demoServiceApiImpl"
 		version="1.0" timeout="60000" protocol="dubbo"/>
+	<dubbo:service interface="org.example.api.ftp.service.IFtpServiceApi" ref="ftpServiceApiImpl"
+		version="1.0" timeout="60000" protocol="hessian"/>
 	
 </beans>

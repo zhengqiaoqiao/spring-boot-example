@@ -22,8 +22,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @ImportResource({
 	"classpath:spring-mybatis.xml",
 	"classpath:spring-oval.xml",
-	"classpath:spring-dubbo-provider.xml",
-	"classpath:spring-ftp.xml"
+	"classpath:spring-ftp.xml",
+	"classpath:spring-dubbo-provider.xml"
 })
 @ServletComponentScan
 public class Application extends WebMvcConfigurerAdapter{

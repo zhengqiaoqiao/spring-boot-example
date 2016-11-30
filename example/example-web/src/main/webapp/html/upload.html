@@ -25,7 +25,7 @@
 			    // swf文件路径
 			    swf: '/js/webuploader-0.1.5/Uploader.swf',
 			    // 文件接收服务端。
-			    server: 'http://localhost:8080/upload-ftp/file-split.do',
+			    server: 'http://localhost:8082/upload-ftp/file-split.do',
 			    // 选择文件的按钮。可选。
 			    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 			    pick: '#picker',
@@ -64,7 +64,7 @@
 	    	   		type: "GET",
 	    	   		//同步请求
 	    	   		async:false,
-	    	   		url: "http://localhost:8080/upload-ftp/check-file-exist.do",
+	    	   		url: "http://localhost:8082/upload-ftp/check-file-exist.do",
 	    	   		data: "fileName="+file.name,
 	    	   		success: function(msg){
 	    	   			if(msg && msg.code==200 && msg.result==true){
@@ -153,7 +153,7 @@
 			uploader.on('uploadSuccess', function(file) {
 				$.ajax({
 	    	   		type: "GET",
-	    	   		url: "http://localhost:8080/upload-ftp/merge-file-split.do",
+	    	   		url: "http://localhost:8082/upload-ftp/merge-file-split.do",
 	    	   		data: "fileMD5="+file.__hash+"&fileName="+file.name,
 	    	   		success: function(msg){
 	    	   			layer.closeAll();

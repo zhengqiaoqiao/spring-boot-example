@@ -15,6 +15,7 @@
 	<url>http://maven.apache.org</url>
 	
 	<properties>
+		<start-class>org.example.server.Application</start-class>
 		<!--  依赖版本  -->
 		<mybatis.version>3.3.1</mybatis.version>
 		<mybatis.spring.version>1.2.4</mybatis.spring.version>
@@ -108,17 +109,6 @@
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		<!-- Uploading Files -->
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-devtools</artifactId>
-		    <optional>true</optional>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-configuration-processor</artifactId>
-		    <optional>true</optional>
 		</dependency>
 	   	<!-- TEST -->
 		<dependency>
